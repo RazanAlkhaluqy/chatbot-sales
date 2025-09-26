@@ -1,24 +1,35 @@
-import pandas as pd
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-import torch
-import re
-import gc
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-import torch
 
-model_id = "meta-llama/Llama-3.1-8B"
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import streamlit as st
+
+st.set_page_config(page_title="🤖 Chatbot Interface", page_icon="🤖")
+st.title("🤖 Chatbot Interface")
+st.markdown("يرجى الانتظار أثناء تحميل النموذج الكبير...")
+
+# -------------------------
+# Model configuration
+# -------------------------
+# model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-BNB-NF4"
+
+# model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4"
+model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-BNB-NF4"
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
-print(f"النموذج سيعمل على: {device}")
+st.text(f"النموذج سيعمل على: {device}")
 
-try:
+# -------------------------
+# Load model with spinner
+# -------------------------
+with st.spinner("جارٍ تحميل النموذج، هذا قد يستغرق عدة دقائق..."):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
-        device_map="auto",
-        torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
+        device_map=None,  # CPU only
+        torch_dtype=torch.float32
     )
     model.eval()
 
@@ -26,7 +37,6 @@ try:
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        device=0 if device == "cuda" else -1,
         max_new_tokens=200,
         do_sample=True,
         temperature=0.7,
@@ -36,17 +46,22 @@ try:
         pad_token_id=tokenizer.pad_token_id
     )
 
-except Exception as e:
-    print(f"❌ حدث خطأ أثناء تحميل النموذج: {e}")
-    exit()
+st.success("تم تحميل النموذج ✅")
 
-def chatbot_response(prompt):
-    return llama_pipeline(prompt)[0]["generated_text"]
+# -------------------------
+# Session state
+# -------------------------
+if "history" not in st.session_state:
+    st.session_state.history = []
 
-print("\n🤖 أهلاً بك في روبوت الدردشة! (اكتب 'exit' للخروج)")
-while True:
-    user_input = input("أنت: ")
-    if user_input.lower() == "exit":
-        print("🤖 الروبوت: وداعاً!")
-        break
-    print(f"🤖 الروبوت: {chatbot_response(user_input)}")
+user_input = st.text_input("أنت:")
+
+if user_input:
+    with st.spinner("الروبوت يفكر..."):
+        response = llama_pipeline(user_input)[0]["generated_text"]
+    st.session_state.history.append(("أنت", user_input))
+    st.session_state.history.append(("🤖 الروبوت", response))
+
+# Display chat history
+for sender, msg in st.session_state.history:
+    st.markdown(f"**{sender}:** {msg}")
