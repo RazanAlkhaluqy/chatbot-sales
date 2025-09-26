@@ -6,7 +6,7 @@ import gc
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 
-model_id = "meta-llama/Llama-3-8B-Instruct"
+model_id = "meta-llama/Llama-3.1-8B"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"النموذج سيعمل على: {device}")
 
