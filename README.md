@@ -2,7 +2,7 @@
 
 # 📦 Amazon Product Data Analysis & Chatbot
 
-![Project Badge](https://img.shields.io/badge/Project-Week3-blue) ![Python](https://img.shields.io/badge/Python-3.11-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Project Badge]![Python](https://img.shields.io/badge/Python-3.11-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 
 Analyze Amazon product data using Python and Excel, perform sentiment analysis, and interact with insights through a simple AI-powered chatbot.
