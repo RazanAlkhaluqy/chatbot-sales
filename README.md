@@ -43,7 +43,7 @@ The dataset contains product and review information from Amazon. It includes **1
 ### Data Dictionary
 
 <details>
-<summary>Click to view the full table</summary>
+<summary>Click to view the full columns you'll find in the Excel file:</summary>
 
 | Column              | Description                                   |
 |--------------------|-----------------------------------------------|
