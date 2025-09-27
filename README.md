@@ -2,7 +2,8 @@
 
 # 📦 Amazon Product Data Analysis & Chatbot
 
-![Project Badge]![Python](https://img.shields.io/badge/Python-3.11-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Project Badge]![Python](https://img.shields.io/badge/Python-3.11-green) 
+![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)   ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 
 Analyze Amazon product data using Python and Excel, perform sentiment analysis, and interact with insights through a simple AI-powered chatbot.
@@ -19,7 +20,7 @@ Analyze Amazon product data using Python and Excel, perform sentiment analysis, 
 - [Chatbot Integration](#chatbot-integration)
 - [Screenshots / Demo](#screenshots--demo)
 - [License](#license)
-- [Contributors](#contributors)
+- [Author & Acknowledgments](#author-acknowledgments)
 
 ---
 
@@ -37,7 +38,7 @@ The ultimate goal is to provide actionable insights on product performance and c
 ## Dataset
 The dataset contains product and review information from Amazon. It includes **16 columns** with details like pricing, ratings, reviews, and user information.  
 
-**Data Source:** Local Excel file (provided for Week 3 tasks)
+**Data Source:** Local Excel file
 
 ### Data Dictionary
 | Column | Description |
@@ -119,9 +120,12 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ---
 
-## Contributors
+## Author& Acknowledgments
 
-- **Razan Zaki** – Data analysis, AI integration, Python & Excel handling  
-- Open to contributions via Pull Requests
+**Author:** Razan Zaki  
 
+**Acknowledgments:**  
+- I would like to thanks to my mentors Mr. Osamah Sarraj and director Mr. Mohammed Sharaf, for their guidance and support throughout the project.  
+
+This project was developed as part of an Analyze Amazon product data & chatbot from Excel file.
 
