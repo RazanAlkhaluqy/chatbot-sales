@@ -11,9 +11,10 @@ st.markdown("يرجى الانتظار أثناء تحميل النموذج ال
 # Model configuration
 # -------------------------
 # model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-BNB-NF4"
-
 # model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4"
-model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-BNB-NF4"
+# model_id = "hugging-quants/Meta-Llama-3.1-8B-Instruct-BNB-NF4"
+
+model_id = "meta-llama/Llama-3.1-8B-Instruct"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 st.text(f"النموذج سيعمل على: {device}")
