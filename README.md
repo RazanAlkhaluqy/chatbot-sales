@@ -41,24 +41,31 @@ The dataset contains product and review information from Amazon. It includes **1
 **Data Source:** Local Excel file
 
 ### Data Dictionary
-| Column | Description |
-|--------|-------------|
-| `product_id` | Unique identifier for each product |
-| `product_name` | Full product name |
-| `category` | Product category (may include multiple levels) |
-| `discounted_price` | Price after discount |
-| `actual_price` | Original price before discount |
-| `discount_percentage` | Discount as a percentage |
-| `rating` | Average product rating |
-| `rating_count` | Total number of ratings |
-| `about_product` | Short product description |
-| `user_id` | Unique identifier of reviewer |
-| `user_name` | Name of reviewer |
-| `review_id` | Unique ID of the review |
-| `review_title` | Title or summary of the review |
-| `review_content` | Full review text |
-| `img_link` | Link to product image |
-| `product_link` | Link to product page |
+
+<details>
+<summary>Click to view the full table</summary>
+
+| Column              | Description                                   |
+|--------------------|-----------------------------------------------|
+| product_id         | Unique identifier for each product           |
+| product_name       | Full product name                             |
+| category           | Product category (may include multiple levels) |
+| discounted_price   | Price after discount                          |
+| actual_price       | Original price before discount                |
+| discount_percentage| Discount as a percentage                      |
+| rating             | Average product rating                        |
+| rating_count       | Total number of ratings                       |
+| about_product      | Short product description                     |
+| user_id            | Unique identifier of reviewer                 |
+| user_name          | Name of the reviewer                           |
+| review_id          | Unique ID of the review                        |
+| review_title       | Title or summary of the review                |
+| review_content     | Full text of the review                        |
+| img_link           | Link to the product image                      |
+| product_link       | Link to the product page                        |
+
+</details>
+
 
 ---
 
