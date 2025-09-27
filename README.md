@@ -75,9 +75,9 @@ The dataset contains product and review information from Amazon. It includes **1
 ## Installation & Setup
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/amazon-product-analysis.git
+git clone https://github.com/RazanAlkhaluqy/chatbot-sales.git
 cd amazon-product-analysis
-
+```
 ## Analysis & Insights
 
 **Exploratory Analysis:**  
