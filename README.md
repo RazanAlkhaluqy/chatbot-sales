@@ -109,6 +109,7 @@ jupyter notebook excel_analysis.ipynb
 If you don’t have Jupyter installed, you can run:
 ```bash
 pip install notebook
+---
 
 ## Analysis & Insights
 
