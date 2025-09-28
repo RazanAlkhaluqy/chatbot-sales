@@ -29,7 +29,7 @@ This project focuses on exploring, analyzing, and extracting insights from the *
 - Perform data cleaning and preprocessing using **Pandas**  
 - Conduct exploratory data analysis (EDA) to answer business questions  
 - Apply **AI models from Hugging Face** for sentiment analysis of reviews  
-- Build a **basic chatbot** to answer queries about products and insights  
+- Build a **basic chatbot** to answer queries about products and insights like : Which product has the highest rating? 
 
 The ultimate goal is to provide actionable insights on product performance and customer sentiment while demonstrating AI-assisted analytics.
 
@@ -105,13 +105,11 @@ Explored additional questions, including sentiment trends across categories and 
 
 ## Chatbot Integration
 
-- A simple AI-powered chatbot using a local LLM  
+- A simple AI-powered chatbot  
 - Allows users to query insights such as:  
   - Top products by category  
   - Average ratings  
   - Sentiment trends of reviews  
-
-**Future Enhancements:** Could incorporate multi-turn conversation and advanced NLP for deeper insights.
 
 ---
 
