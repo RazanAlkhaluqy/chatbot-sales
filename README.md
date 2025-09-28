@@ -2,7 +2,7 @@
 
 # 📦 Amazon Product Data Analysis & Chatbot
 
-![Project Badge]![Python](https://img.shields.io/badge/Python-3.11-green) 
+ ![Python](https://img.shields.io/badge/Python-3.11-green) 
 ![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)   ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 
