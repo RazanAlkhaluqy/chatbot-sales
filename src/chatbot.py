@@ -557,6 +557,12 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+import os
+from dotenv import load_dotenv
+
+# Load .env from parent folder
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
+
 # -------------------------
 # Load cleaned Excel dataset
 # -------------------------
@@ -647,7 +653,7 @@ if model_choice == "GPT-2 (local)":
 
 elif model_choice == "Llama 3 (API/ Groq)":
     from groq import Groq
-groq_client = Groq(api_key="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")
+groq_client = Groq(api_key=TOKEN_Groq)
 try:
     info = groq_client.models.list()
     print("Connection OK. Available models:", info)
