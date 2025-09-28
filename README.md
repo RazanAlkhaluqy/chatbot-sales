@@ -18,7 +18,7 @@ Analyze Amazon product data using Python and Excel, perform sentiment analysis, 
 - [Installation & Setup](#installation--setup)
 - [Analysis & Insights](#analysis--insights)
 - [Chatbot Integration](#chatbot-integration)
-- [Screenshots / Demo](#screenshots--demo)
+- [Screenshots](#screenshots)
 - [License](#license)
 - [Author & Acknowledgments](#author-acknowledgments)
 
@@ -113,7 +113,7 @@ Explored additional questions, including sentiment trends across categories and 
 
 ---
 
-## Screenshots / Demo
+## Screenshots
 
 ![Chatbot-sales Screenshot](images/chatbot-picture.png)
 
