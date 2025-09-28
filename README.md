@@ -115,7 +115,7 @@ Explored additional questions, including sentiment trends across categories and 
 
 ## Screenshots
 
-![Chatbot-sales Screenshot](images/chatbot-picture.png)
+![Chatbot-sales Screenshot](chatbot-picture.png)
 
 ---
 
