@@ -83,8 +83,33 @@ The dataset contains product and review information from Amazon. It includes **1
 1. **Clone the repository**
 ```bash
 git clone https://github.com/RazanAlkhaluqy/chatbot-sales.git
-cd amazon-product-analysis
+cd chatbot-sales
 ```
+### 2. Create a virtual environment (recommended)
+```bash
+conda create -n chatbot_env python=3.10 -y
+conda activate chatbot_env
+```
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+(if you don’t have a requirements.txt, you can create one with pip freeze > requirements.txt)
+
+### 4. Run the app (Streamlit)
+To run and see the chatbot in the browser:
+```bash
+streamlit run src/chatbot.py
+```
+to view the analysis results and feature engineering and sentiment analysis in Jupyter Notebook:
+```bash
+jupyter notebook excel_analysis.ipynb
+```
+If you don’t have Jupyter installed, you can run:
+```bash
+pip install notebook
+
 ## Analysis & Insights
 
 **Exploratory Analysis:**  
@@ -93,13 +118,10 @@ Examined product categories, top-rated products, price distributions, and rating
 **Business Questions:**  
 Answered at least five business questions, such as top-selling categories and highest-rated products.
 
-**Custom Analysis:**  
-Explored additional questions, including sentiment trends across categories and the relationship between discount percentage and rating.
-
 **Visualizations:**  
-- Price vs Rating Scatter Plot  
-- Rating Count Distribution by Category  
-- Sentiment Analysis Heatmap
+- Overall Review Sentiment Distribution 
+- Average Sentiment Score per Main Category
+- Top 10 Products by Revenue
 
 ---
 
