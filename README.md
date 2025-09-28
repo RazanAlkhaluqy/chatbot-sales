@@ -115,7 +115,7 @@ Explored additional questions, including sentiment trends across categories and 
 
 ## Screenshots / Demo
 
-*Add screenshots or GIF here showcasing the dashboard, visualizations, and chatbot interaction.*
+![Chatbot-sales Screenshot](images/chatbot-picture.png)
 
 ---
 
