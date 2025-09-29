@@ -71,17 +71,21 @@ The dataset contains product and review information from Amazon. It includes **1
 ---
 
 ## Technology Stack
-- Python 3.11  
-- Pandas, NumPy, Matplotlib, Seaborn  
-- Jupyter Notebook  
-- Streamlit (for dashboard)  
-- Hugging Face Transformers (for sentiment analysis)  
-- Git & GitHub (version control)
+- **Programming Language**: Python 3.11  
+- **Data Analysis & Visualization**: Pandas, NumPy, Matplotlib, Seaborn  
+- **Machine Learning / NLP**: 
+  - Hugging Face Transformers (GPT-2, LLaMA)  
+  - PyTorch (deep learning backend)  
+  - scikit-learn (TF-IDF, similarity measures)  
+- **Interface**: 
+  - Jupyter Notebook (exploration)  
+  - Streamlit for chatbot
+- **Version Control**: Git & GitHub  
 
 ---
 
 ## Installation & Setup
-1. **Clone the repository**
+### 1. **Clone the repository**
 ```bash
 git clone https://github.com/RazanAlkhaluqy/chatbot-sales.git
 cd chatbot-sales
