@@ -5,8 +5,7 @@
  ![Python](https://img.shields.io/badge/Python-3.11-green) 
 ![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)   ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-
-Analyze Amazon product data using Python and Excel, perform sentiment analysis, and interact with insights through a simple AI-powered chatbot.
+Analyze Amazon product data using Python and Excel, perform sentiment analysis, and explore insights through an AI-powered chatbot — with support for running either GPT-2 or LLaMA, so you can choose the model that best fits your needs.
 
 ---
 
@@ -29,7 +28,7 @@ This project focuses on exploring, analyzing, and extracting insights from the *
 - Perform data cleaning and preprocessing using **Pandas**  
 - Conduct exploratory data analysis (EDA) to answer business questions  
 - Apply **AI models from Hugging Face** for sentiment analysis of reviews  
-- Build a **basic chatbot** to answer queries about products and insights like : Which product has the highest rating? 
+- Build a **basic chatbot** to answer queries about products and insights.
 
 The ultimate goal is to provide actionable insights on product performance and customer sentiment while demonstrating AI-assisted analytics.
 
