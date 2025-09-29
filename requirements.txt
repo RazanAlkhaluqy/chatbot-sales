@@ -1,9 +1,12 @@
 pandas
+numpy
+matplotlib
+seaborn
 openpyxl
 jupyterlab
+streamlit
 transformers
 sentence-transformers
 scikit-learn
 tqdm
-numpy
 torch
