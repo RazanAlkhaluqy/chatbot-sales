@@ -97,6 +97,9 @@ st.set_page_config(page_title="🤖 Chatbot Interface", page_icon="🤖", layout
 st.markdown("<h1 style='text-align:center; color:#4f008c'>🤖 Smart Assistant</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center; color:gray;'>RAG + Multi-Model Chatbot</p>", unsafe_allow_html=True)
 
+
+
+
 # -------------------------
 # Sidebar model selection
 # -------------------------
