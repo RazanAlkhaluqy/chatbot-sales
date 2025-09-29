@@ -4,6 +4,10 @@
 
  ![Python](https://img.shields.io/badge/Python-3.11-green) 
 ![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)   ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Python](https://img.shields.io/badge/Python-3.11-green) 
+![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)  
+![Models](https://img.shields.io/badge/Models-GPT2%20|%20LLaMA-blueviolet)  
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 Analyze Amazon product data using Python and Excel, perform sentiment analysis, and explore insights through an AI-powered chatbot — with support for running either GPT-2 or LLaMA 3, so you can choose the model that best fits your needs.
 
