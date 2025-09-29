@@ -20,7 +20,13 @@ import os
 from dotenv import load_dotenv
 
 # Load .env from parent folder
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
+#dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+load_dotenv()
+
+TOKEN_Groq = os.getenv("TOKEN_Groq")
+if not TOKEN_Groq:
+    raise ValueError("TOKEN_Groq is not set. Check your .env file path and contents.")
+
 
 # -------------------------
 # Load cleaned Excel dataset
@@ -112,12 +118,12 @@ if model_choice == "GPT-2 (local)":
 
 elif model_choice == "Llama 3 (API/ Groq)":
     from groq import Groq
-groq_client = Groq(api_key=TOKEN_Groq)
-try:
-    info = groq_client.models.list()
-    print("Connection OK. Available models:", info)
-except Exception as e:
-    print("API Connection failed:", e)
+    groq_client = Groq(api_key=TOKEN_Groq)
+    try:
+        info = groq_client.models.list()
+        print("Connection OK. Available models:", info)
+    except Exception as e:
+        print("API Connection failed:", e)
 
 
 # -------------------------
