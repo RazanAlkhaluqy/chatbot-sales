@@ -61,11 +61,20 @@ product_sentiment_counts['positive_ratio'] = product_sentiment_counts.get('POSIT
 vectorizer = TfidfVectorizer(stop_words="english")
 X = vectorizer.fit_transform(df["knowledge_text"].fillna(""))
 
+# def retrieve_context(query, top_k=2):
+#     query_vec = vectorizer.transform([query])
+#     scores = cosine_similarity(query_vec, X).flatten()
+#     top_indices = scores.argsort()[-top_k:][::-1]
+#     return df.iloc[top_indices]["knowledge_text"].tolist()
+
 def retrieve_context(query, top_k=2):
+    df = st.session_state.df  # always use the active dataset
+
     query_vec = vectorizer.transform([query])
-    scores = cosine_similarity(query_vec, X).flatten()
-    top_indices = scores.argsort()[-top_k:][::-1]
+    sims = cosine_similarity(query_vec, vectorizer.transform(df["knowledge_text"])).flatten()
+    top_indices = sims.argsort()[-top_k:][::-1]
     return df.iloc[top_indices]["knowledge_text"].tolist()
+
 
 # -------------------------
 # Handle numeric/factual queries
@@ -89,6 +98,108 @@ def handle_numeric_query(user_input):
         res = "\n".join([f"{cat}: {score:.2f}" for cat, score in category_avg_sentiment.items()])
         return f"Average sentiment per category:\n{res}"
     return None
+#--------------------------
+#-------------------------
+# Chatbot with SQL + Retrieval
+#-------------------------
+import re
+
+def handle_sql_query(user_input):
+    try:
+        # Simple heuristic: if user asks about "average", "max", "min", "count"
+        if re.search(r"\b(average|max|min|count|sum|total)\b", user_input.lower()):
+            # Example: user asks "average rating"
+            if "rating" in user_input.lower():
+                query = "SELECT AVG(rating) as avg_rating FROM uploaded_data;"
+                result = pd.read_sql(query, conn).iloc[0,0]
+                return f"The average rating is {result:.2f}."
+            
+            # Example: "how many rows?"
+            if "rows" in user_input.lower():
+                query = "SELECT COUNT(*) as row_count FROM uploaded_data;"
+                result = pd.read_sql(query, conn).iloc[0,0]
+                return f"The dataset contains {result} rows."
+
+        return None
+    except Exception as e:
+        return f"⚠️ Could not process SQL query: {e}"
+
+
+#--------------------------
+# -------------------------
+# File uploader for Excel
+# -------------------------
+# uploaded_file = st.sidebar.file_uploader("📂 Upload your Excel file", type=["xlsx", "csv"])
+
+# if uploaded_file:
+#     # Save to a temporary location
+#     import tempfile
+#     temp_dir = tempfile.mkdtemp()
+#     file_path = os.path.join(temp_dir, uploaded_file.name)
+#     with open(file_path, "wb") as f:
+#         f.write(uploaded_file.getbuffer())
+
+#     # Load into DataFrame
+#     if file_path.endswith(".csv"):
+#         df = pd.read_csv(file_path)
+#     else:
+#         df = pd.read_excel(file_path, engine="openpyxl")
+
+#     st.success(f"✅ File uploaded successfully! Rows: {df.shape[0]}, Columns: {df.shape[1]}")
+
+# -------------------------
+# File upload handler
+# -------------------------
+uploaded_file = st.file_uploader("📂 Upload an Excel file", type=["xlsx"])
+
+if uploaded_file:
+    df = pd.read_excel(uploaded_file)
+
+    # ✅ Ensure 'knowledge_text' exists
+    if "knowledge_text" not in df.columns:
+        df["knowledge_text"] = df.astype(str).apply(lambda row: " | ".join(row.values), axis=1)
+
+    st.session_state.df = df  # store uploaded dataframe
+    st.success("✅ File uploaded and ready! Using this as chatbot knowledge.")
+else:
+    # fallback: load your default cleaned dataset
+    df = pd.read_excel("../data/amazon_product_reviews_cleaned.xlsx")
+
+    # ✅ Ensure 'knowledge_text' exists for default dataset too
+    if "knowledge_text" not in df.columns:
+        df["knowledge_text"] = (
+            "Product: " + df["product_name"].astype(str) +
+            " | Category: " + df["category"].astype(str) +
+            " | Price Tier: " + df["price_tier"].astype(str) +
+            " | Discount: " + df["discount_level"].astype(str) +
+            " | Rating: " + df["rating"].astype(str) +
+            " | Rating Count: " + df["rating_count"].astype(str) +
+            " | Review: " + df["cleaned_review"].astype(str) +
+            " | Sentiment: " + df["review_sentiment"].astype(str)
+        )
+
+    st.session_state.df = df
+    st.info("ℹ️ No file uploaded. Using default Amazon reviews dataset.")
+
+
+#-------------------------
+
+#-------------------------
+# Convert to  SQLite
+#-------------------------
+
+import sqlite3
+
+# Create SQLite DB in memory (or on disk)
+conn = sqlite3.connect(":memory:")  # ":memory:" keeps it fast and temporary
+df.to_sql("uploaded_data", conn, if_exists="replace", index=False)
+
+# # Test query
+# test_query = pd.read_sql("SELECT * FROM uploaded_data LIMIT 5;", conn)
+# st.write("Preview of uploaded data:", test_query)
+#-------------------------
+#-------------------------
+
 
 # -------------------------
 # Streamlit page config
@@ -96,8 +207,6 @@ def handle_numeric_query(user_input):
 st.set_page_config(page_title="🤖 Chatbot Interface", page_icon="🤖", layout="centered")
 st.markdown("<h1 style='text-align:center; color:#4f008c'>🤖 Smart Assistant</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center; color:gray;'>RAG + Multi-Model Chatbot</p>", unsafe_allow_html=True)
-
-
 
 
 # -------------------------
@@ -146,52 +255,110 @@ with st.form("chat_form", clear_on_submit=True):
 # -------------------------
 # Process user input
 # -------------------------
+
+# if submitted and user_input:
+#     with st.spinner("🤖 Thinking..."):
+
+#         # Check numeric/factual queries
+#         numeric_answer = handle_numeric_query(user_input)
+#         if numeric_answer:
+#             reply = numeric_answer
+#         else:
+#             # Retrieve context
+#             context_chunks = retrieve_context(user_input, top_k=2)
+#             context_text = "\n".join(context_chunks)
+
+#             # Limit history
+#             conversation = "\n".join([
+#                 f"You: {msg}" if sender == "you" else f"Assistant: {msg}"
+#                 for sender, msg in st.session_state.history[-4:]
+#             ])
+
+#             prompt = f"{context_text}\n{conversation}\nYou: {user_input}\nAssistant:"
+
+#             if model_choice == "GPT-2 (local)":
+#                 inputs = tokenizer.encode(prompt, return_tensors="pt")
+#                 max_input_tokens = 900
+#                 if inputs.shape[1] > max_input_tokens:
+#                     inputs = inputs[:, -max_input_tokens:]
+#                 output_ids = model.generate(
+#                     inputs,
+#                     max_length=inputs.shape[1]+80,
+#                     temperature=0.7,
+#                     top_p=0.9,
+#                     do_sample=True,
+#                     pad_token_id=tokenizer.eos_token_id
+#                 )
+#                 reply = tokenizer.decode(output_ids[0][inputs.shape[1]:], skip_special_tokens=True)
+
+#             elif model_choice == "Llama 3 (API/ Groq)":
+#                 messages = [{"role": "user", "content": user_input}]
+#                 response = groq_client.chat.completions.create(
+#                     messages=messages,
+#                     model="llama-3.3-70b-versatile"
+#                 )
+#                 reply = response.choices[0].message.content
+
+#         # Save chat
+#         st.session_state.history.append(("you", user_input))
+#         st.session_state.history.append(("🤖 bot", reply))
+#############################
 if submitted and user_input:
     with st.spinner("🤖 Thinking..."):
 
-        # Check numeric/factual queries
-        numeric_answer = handle_numeric_query(user_input)
-        if numeric_answer:
-            reply = numeric_answer
+        # Step A: Try SQL query handling
+        sql_answer = handle_sql_query(user_input) if 'conn' in globals() else None
+        if sql_answer:
+            reply = sql_answer
+
         else:
-            # Retrieve context
-            context_chunks = retrieve_context(user_input, top_k=2)
-            context_text = "\n".join(context_chunks)
+            # Step B: Check numeric/factual queries (your old logic)
+            numeric_answer = handle_numeric_query(user_input)
+            if numeric_answer:
+                reply = numeric_answer
 
-            # Limit history
-            conversation = "\n".join([
-                f"You: {msg}" if sender == "you" else f"Assistant: {msg}"
-                for sender, msg in st.session_state.history[-4:]
-            ])
+            else:
+                # Step C: Retrieve context with TF-IDF
+                context_chunks = retrieve_context(user_input, top_k=2)
+                context_text = "\n".join(context_chunks)
 
-            prompt = f"{context_text}\n{conversation}\nYou: {user_input}\nAssistant:"
+                # Limit history
+                conversation = "\n".join([
+                    f"You: {msg}" if sender == "you" else f"Assistant: {msg}"
+                    for sender, msg in st.session_state.history[-4:]
+                ])
 
-            if model_choice == "GPT-2 (local)":
-                inputs = tokenizer.encode(prompt, return_tensors="pt")
-                max_input_tokens = 900
-                if inputs.shape[1] > max_input_tokens:
-                    inputs = inputs[:, -max_input_tokens:]
-                output_ids = model.generate(
-                    inputs,
-                    max_length=inputs.shape[1]+80,
-                    temperature=0.7,
-                    top_p=0.9,
-                    do_sample=True,
-                    pad_token_id=tokenizer.eos_token_id
-                )
-                reply = tokenizer.decode(output_ids[0][inputs.shape[1]:], skip_special_tokens=True)
+                prompt = f"{context_text}\n{conversation}\nYou: {user_input}\nAssistant:"
 
-            elif model_choice == "Llama 3 (API/ Groq)":
-                messages = [{"role": "user", "content": user_input}]
-                response = groq_client.chat.completions.create(
-                    messages=messages,
-                    model="llama-3.3-70b-versatile"
-                )
-                reply = response.choices[0].message.content
+                if model_choice == "GPT-2 (local)":
+                    inputs = tokenizer.encode(prompt, return_tensors="pt")
+                    max_input_tokens = 900
+                    if inputs.shape[1] > max_input_tokens:
+                        inputs = inputs[:, -max_input_tokens:]
+                    output_ids = model.generate(
+                        inputs,
+                        max_length=inputs.shape[1] + 80,
+                        temperature=0.7,
+                        top_p=0.9,
+                        do_sample=True,
+                        pad_token_id=tokenizer.eos_token_id
+                    )
+                    reply = tokenizer.decode(output_ids[0][inputs.shape[1]:], skip_special_tokens=True)
+
+                elif model_choice == "Llama 3 (API/ Groq)":
+                    messages = [{"role": "user", "content": user_input}]
+                    response = groq_client.chat.completions.create(
+                        messages=messages,
+                        model="llama-3.3-70b-versatile"
+                    )
+                    reply = response.choices[0].message.content
 
         # Save chat
         st.session_state.history.append(("you", user_input))
         st.session_state.history.append(("🤖 bot", reply))
+
+############################
+
 
 # -------------------------
 # Display chat history
