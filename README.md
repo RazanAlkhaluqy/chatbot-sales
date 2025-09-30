@@ -139,7 +139,7 @@ Answered at least five business questions, such as top-selling categories and hi
 
 ## Screenshots
 
-![Chatbot-sales Screenshot](chatbot-picture.png)
+![Chatbot-sales Screenshot](screenshot_chatbot_interface.png)
 
 ---
 
